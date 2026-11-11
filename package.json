@@ -1,0 +1,25 @@
+{
+  "name": "subtitle-translator",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "typecheck": "bun check",
+    "start": "bun src/server.ts",
+    "dev": "bun --watch src/server.ts",
+    "update-languages": "bun scripts/update-languages.ts",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.8.0",
+    "openai": "7.55.0",
+    "zod": "4.6.7"
+  },
+  "version": "0.1.0",
+  "license": "MIT"
+}

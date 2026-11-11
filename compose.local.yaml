@@ -1,0 +1,28 @@
+# Local Docker with LibreTranslate: docker compose -f compose.local.yaml up -d --build
+services:
+  addon:
+    build: .
+    ports: ["7000:7000"]
+    env_file: { path: .env, required: false }
+    environment:
+      LIBRETRANSLATE_URL: http://libretranslate:5000
+    volumes: ["cache:/data"]
+    depends_on:
+      libretranslate:
+        condition: service_healthy
+
+  libretranslate:
+    image: libretranslate/libretranslate:v1.9.6
+    environment:
+      # Each language is a model download. List English and the languages you translate to.
+      LT_LOAD_ONLY: en,he,es,fr,de
+    volumes: ["libretranslate-models:/home/libretranslate/.local"]
+    healthcheck:
+      test: ["CMD-SHELL", "./venv/bin/python scripts/healthcheck.py"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+
+volumes:
+  cache:
+  libretranslate-models:
